@@ -1,5 +1,6 @@
 package com.blakebr0.cucumber.helper;
 
+import io.github.xponer2.translator.util.Platform;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -20,7 +21,7 @@ public final class TileEntityHelper {
 
         for (var player : players) {
             if (player instanceof EntityPlayerMP mPlayer) {
-                if (isPlayerNearby(mPlayer.posX, mPlayer.posZ, pos.getX() + 0.5, pos.getZ() + 0.5)) {
+                if (isPlayerNearby(mPlayer.posX, mPlayer.posZ, pos.getX() + 0.5, pos.getZ() + 0.5) && Platform.isChunkSentTo(mPlayer, pos)) {
                     mPlayer.connection.sendPacket(packet);
                 }
             }
