@@ -1,0 +1,11 @@
+plugins {
+    id 'java-library'
+    id 'com.gtnewhorizons.retrofuturagradle' version '1.4.9'
+}
+
+apply from: rootProject.file('gradle/scripts/mod.gradle')
+
+dependencies {
+    // the 1.21.1 API on 1.12.2 (and DataFixerUpper); part of Cucumber's API, so the mods built on Cucumber get it too
+    api 'io.github.xponer2:translator'
+}

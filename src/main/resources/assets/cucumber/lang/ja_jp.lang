@@ -1,0 +1,17 @@
+#PARSE_ESCAPES
+# Converted by tools/assets/convert_resources.py from lang/ja_jp.json
+subtitle.cucumber.watering_can=ジョウロ
+tooltip.cucumber.hold_shift_for_info=§e§oSHIFT§r§7を押して詳細を表示
+tooltip.cucumber.uses_left=%s回 使用可能
+tooltip.cucumber.one_use_left=1回 使用可能
+tooltip.cucumber.unlimited_uses=∞回 使用可能
+tooltip.cucumber.empty=空
+tooltip.cucumber.filled=満杯
+tooltip.cucumber.hold_ctrl_for_tags=CTRLを押してタグを表示
+tooltip.cucumber.data_components=データコンポーネント：
+tooltip.cucumber.hold_alt_for_data_components=ALTを押してデータコンポーネントを表示
+tooltip.cucumber.block_tags=ブロックタグ：
+tooltip.cucumber.item_tags=アイテムタグ：
+tooltip.cucumber.not_yet_implemented=未実装
+message.cucumber.filled_energy=この%sにエネルギーを与えました！
+message.cucumber.filled_energy_error=この%sにエネルギーを与えることができませんでした

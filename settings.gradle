@@ -1,0 +1,36 @@
+pluginManagement {
+    repositories {
+        maven {
+            // RetroFuturaGradle
+            name 'GTNH Maven'
+            url 'https://nexus.gtnewhorizons.com/repository/public/'
+            mavenContent {
+                includeGroup 'com.gtnewhorizons'
+                includeGroup 'com.gtnewhorizons.retrofuturagradle'
+            }
+        }
+        gradlePluginPortal()
+        mavenCentral()
+        mavenLocal()
+    }
+}
+
+plugins {
+    // Automatic toolchain provisioning
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.9.0'
+}
+
+rootProject.name = 'cucumber-back-to-life'
+
+// The libraries this mod is built on are builds of their own: clone their repositories next to this one
+// Translator: https://github.com/Xponer2/translator
+def library(List<String> folders, String repository) {
+    def folder = folders.collect { file("../$it") }.find { new File(it, 'settings.gradle').isFile() }
+    if (folder == null) {
+        throw new GradleException("Clone $repository next to this folder (as ${folders[0]})")
+    }
+    // replaces the dependency on io.github.xponer2:<the library's rootProject.name>
+    includeBuild(folder)
+}
+
+library(['translator'], 'https://github.com/Xponer2/translator')
