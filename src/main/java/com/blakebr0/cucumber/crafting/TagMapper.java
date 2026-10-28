@@ -61,7 +61,7 @@ public class TagMapper {
                         // if they are still present. if not we just refresh the entry
                         if (ModConfigs.AUTO_REFRESH_TAG_ENTRIES.get()) {
                             if (!itemId.isEmpty() && !"null".equalsIgnoreCase(itemId)) {
-                                var item = BuiltInRegistries.ITEM.get(new ResourceLocation(itemId));
+                                var item = BuiltInRegistries.ITEM.get(io.github.xponer2.translator.util.ResourceLocations.parse(itemId));
                                 if (item == null || item == Items.AIR) {
                                     addTagToFile(tagId, json, file, false);
                                 }
@@ -97,7 +97,7 @@ public class TagMapper {
 
         if (TAG_TO_ITEM_MAP.containsKey(tagId)) {
             var id = TAG_TO_ITEM_MAP.get(tagId);
-            return BuiltInRegistries.ITEM.get(new ResourceLocation(id));
+            return BuiltInRegistries.ITEM.get(io.github.xponer2.translator.util.ResourceLocations.parse(id));
         } else {
             var file = Loader.instance().getConfigDir().toPath().resolve("cucumber-tags.json").toFile();
             if (!file.exists()) {
@@ -125,7 +125,7 @@ public class TagMapper {
 
                         TAG_TO_ITEM_MAP.put(tagId, itemId);
 
-                        return BuiltInRegistries.ITEM.get(new ResourceLocation(itemId));
+                        return BuiltInRegistries.ITEM.get(io.github.xponer2.translator.util.ResourceLocations.parse(itemId));
                     }
 
                     return addTagToFile(tagId, json, file);
@@ -148,7 +148,7 @@ public class TagMapper {
     private static Item addTagToFile(String tagId, JsonObject json, File file, boolean save) {
         var mods = ModConfigs.MOD_TAG_PRIORITIES.get();
         // the tag's item from the mod that comes first in the priority list (mods not in the list last)
-        var item = TagManager.itemTag(new ResourceLocation(tagId)).stream().map(ItemStack::getItem).min((item1, item2) -> {
+        var item = TagManager.itemTag(io.github.xponer2.translator.util.ResourceLocations.parse(tagId)).stream().map(ItemStack::getItem).min((item1, item2) -> {
             var index1 = mods.indexOf(BuiltInRegistries.ITEM.getKey(item1).getNamespace());
             var index2 = mods.indexOf(BuiltInRegistries.ITEM.getKey(item2).getNamespace());
             return Integer.compare(index1 == -1 ? Integer.MAX_VALUE : index1, index2 == -1 ? Integer.MAX_VALUE : index2);

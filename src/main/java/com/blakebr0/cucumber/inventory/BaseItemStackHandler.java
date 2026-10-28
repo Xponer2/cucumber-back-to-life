@@ -5,21 +5,15 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import io.github.xponer2.translator.recipe.CraftingInput;
-import io.github.xponer2.translator.registry.HolderLookup;
 import com.blakebr0.cucumber.crafting.ShapelessCraftingInput;
 
-import net.minecraftforge.items.ItemStackHandler;
+import io.github.xponer2.translator.items.ItemStackHandler;
 import org.apache.commons.lang3.ArrayUtils;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.NonNullList;
 
 public class BaseItemStackHandler extends ItemStackHandler {
-    // 1.12.2 stores the count of a stack as a byte: slots above 127 items keep the real count in this tag
-    private static final String LARGE_COUNT = "CucumberCount";
-
     private final OnContentsChangedFunction onContentsChanged;
     private final Map<Integer, Integer> slotSizeMap;
     private CanInsertFunction canInsert = null;
@@ -82,55 +76,6 @@ public class BaseItemStackHandler extends ItemStackHandler {
         if (this.onContentsChanged != null) {
             this.onContentsChanged.apply(slot);
         }
-    }
-
-    @Override
-    public NBTTagCompound serializeNBT() {
-        var items = new NBTTagList();
-        for (int i = 0; i < this.stacks.size(); ++i) {
-            var stack = this.stacks.get(i);
-            if (!stack.isEmpty()) {
-                var item = new NBTTagCompound();
-                item.setInteger("Slot", i);
-                stack.writeToNBT(item);
-                if (stack.getCount() > Byte.MAX_VALUE) {
-                    item.setInteger(LARGE_COUNT, stack.getCount());
-                }
-                items.appendTag(item);
-            }
-        }
-        var nbt = new NBTTagCompound();
-        nbt.setTag("Items", items);
-        nbt.setInteger("Size", this.stacks.size());
-        return nbt;
-    }
-
-    @Override
-    public void deserializeNBT(NBTTagCompound nbt) {
-        var size = nbt.hasKey("Size", 3) ? nbt.getInteger("Size") : this.stacks.size();
-        this.setSize(Math.max(size, this.stacks.size()));
-        var items = nbt.getTagList("Items", 10);
-        for (int i = 0; i < items.tagCount(); ++i) {
-            var item = items.getCompoundTagAt(i);
-            int slot = item.getInteger("Slot");
-            if (slot >= 0 && slot < this.stacks.size()) {
-                var stack = new ItemStack(item);
-                if (item.hasKey(LARGE_COUNT, 3)) {
-                    stack.setCount(item.getInteger(LARGE_COUNT));
-                }
-                this.stacks.set(slot, stack);
-            }
-        }
-        this.onLoad();
-    }
-
-    // 1.21 signatures
-    public NBTTagCompound serializeNBT(HolderLookup.Provider lookup) {
-        return this.serializeNBT();
-    }
-
-    public void deserializeNBT(HolderLookup.Provider lookup, NBTTagCompound nbt) {
-        this.deserializeNBT(nbt);
     }
 
     public NonNullList<ItemStack> getStacks() {

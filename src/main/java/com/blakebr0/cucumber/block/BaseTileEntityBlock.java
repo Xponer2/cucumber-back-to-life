@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 
 /**
  * A block with a tile entity: the 1.21 {@code EntityBlock} methods answer the 1.12.2 tile entity methods. The
- * ticker is asked for by the tile entity (Cucumber's BaseTileEntity).
+ * ticker is asked for by the tile entity (the Translator's BlockEntity).
  */
 public abstract class BaseTileEntityBlock extends BaseBlock implements EntityBlock {
     public BaseTileEntityBlock(Function<BlockProperties, BlockProperties> properties) {

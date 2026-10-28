@@ -1,6 +1,6 @@
 package com.blakebr0.cucumber.energy;
 
-import net.minecraftforge.energy.EnergyStorage;
+import io.github.xponer2.translator.energy.EnergyStorage;
 
 public class BaseEnergyStorage extends EnergyStorage {
     private final Runnable onContentsChanged;
@@ -36,17 +36,6 @@ public class BaseEnergyStorage extends EnergyStorage {
             this.onContentsChanged.run();
 
         return extracted;
-    }
-
-    // NeoForge's EnergyStorage saves its energy as an int tag (1.12.2 Forge's doesn't save itself)
-    public net.minecraft.nbt.NBTBase serializeNBT() {
-        return new net.minecraft.nbt.NBTTagInt(this.getEnergyStored());
-    }
-
-    public void deserializeNBT(net.minecraft.nbt.NBTBase tag) {
-        if (tag instanceof net.minecraft.nbt.NBTTagInt value) {
-            this.energy = value.getInt();
-        }
     }
 
     public void setEnergyStored(int energy) {

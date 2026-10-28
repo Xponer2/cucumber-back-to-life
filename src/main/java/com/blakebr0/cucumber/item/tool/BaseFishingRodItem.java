@@ -42,4 +42,10 @@ public class BaseFishingRodItem extends ItemFishingRod {
     public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack) {
         return ItemAttributeModifierEvent.fire(stack, slot, super.getAttributeModifiers(slot, stack));
     }
+
+    // 1.21 item names (1.12.2 translates the name key twice, see ItemNames)
+    @Override
+    public String getItemStackDisplayName(net.minecraft.item.ItemStack stack) {
+        return io.github.xponer2.translator.text.ItemNames.displayName(this, stack);
+    }
 }
