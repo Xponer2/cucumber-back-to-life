@@ -12,7 +12,7 @@ problems with this port here.
 
 **Made with AI:** this port is made entirely with AI (Claude), from the code changes to the in-game testing.
 
-**Work in progress:** not playable yet.
+**Beta.**
 
 ## Requirements
 
